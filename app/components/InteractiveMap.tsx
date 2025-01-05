@@ -1,46 +1,45 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 interface Attraction {
   name: string;
-  icon: string;
   coordinates: { x: string; y: string };
 }
 
 const InteractiveMapSection: React.FC = () => {
+  const [activeMarker, setActiveMarker] = useState<number | null>(null);
+
   const attractions: Attraction[] = [
     {
       name: "Shri Ram Janmabhoomi",
-      icon: "\u26EA", // Church/temple icon
-      coordinates: { x: "30%", y: "40%" },
+      coordinates: { x: "32%", y: "45%" },
     },
     {
       name: "Saryu Ghat",
-      icon: "\u1F30A", // Water waves icon
-      coordinates: { x: "60%", y: "70%" },
+      coordinates: { x: "62%", y: "75%" },
     },
     {
       name: "Hanuman Mandir",
-      icon: "\uD83D\uDC9B", // Heart icon
-      coordinates: { x: "50%", y: "50%" },
+      coordinates: { x: "48%", y: "47%" },
     },
     {
       name: "Kanak Bhawan",
-      icon: "\uD83C\uDFE1", // House icon
-      coordinates: { x: "40%", y: "20%" },
+      coordinates: { x: "44%", y: "25%" },
     },
     {
       name: "Guptar Ghat",
-      icon: "\u1F30A", // Water waves icon
-      coordinates: { x: "70%", y: "30%" },
+      coordinates: { x: "68%", y: "32%" },
     },
     {
       name: "Mani Parvat",
-      icon: "\u26F0", // Mountain icon
-      coordinates: { x: "20%", y: "60%" },
+      coordinates: { x: "22%", y: "65%" },
     },
   ];
+
+  const handleListItemClick = (index: number) => {
+    setActiveMarker(index);
+  };
 
   return (
     <section className="interactive-map-section">
@@ -52,28 +51,43 @@ const InteractiveMapSection: React.FC = () => {
           <div className="attractions-list">
             <ul>
               {attractions.map((attraction, index) => (
-                <li key={index} className="list-item">
-                  {/* <span className="icon">{attraction.icon}</span> */}
-                  <span className="name">{attraction.name}</span>
+                <li
+                  key={index}
+                  className={`list-item ${activeMarker === index ? "active" : ""}`}
+                  onClick={() => handleListItemClick(index)}
+                >
+                  {attraction.name}
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Right Pane */}
-          <div className="dummy-map">
-            <img src="/images/Ayodhyatourism.png" alt="Dummy Map" className="map-image" />
-            {attractions.map((attraction, index) => (
-              <div
-                key={index}
-                className="marker"
-                style={{ left: attraction.coordinates.x, top: attraction.coordinates.y }}
-              >
-                <div className="pin">
-                  <span className="pin-icon">{attraction.icon}</span>
+          <div className="dummy-map-wrapper">
+            <div className="dummy-map">
+              <img
+                src="/images/Ayodhyatourism.png"
+                alt="Dummy Map"
+                className="map-image"
+              />
+              {attractions.map((attraction, index) => (
+                <div
+                  key={index}
+                  className={`marker ${activeMarker === index ? "active" : ""}`}
+                  style={{ left: attraction.coordinates.x, top: attraction.coordinates.y }}
+                >
+                  <img
+                    src={
+                      activeMarker === index
+                        ? "/images/red-pin.png"
+                        : "/images/black-pin.png"
+                    }
+                    alt="Marker"
+                    className="pin-image"
+                  />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -95,6 +109,7 @@ const InteractiveMapSection: React.FC = () => {
         .content-wrapper {
           display: flex;
           gap: 5%;
+          align-items: center;
         }
 
         .attractions-list {
@@ -110,27 +125,35 @@ const InteractiveMapSection: React.FC = () => {
         }
 
         .list-item {
-          display: flex;
-          align-items: center;
-          margin: 10px 0;
+          cursor: pointer;
+          padding: 10px;
+          margin: 5px 0;
           font-size: 1.2rem;
           font-weight: 500;
+          transition: background-color 0.3s ease;
         }
 
-        .icon {
-          font-size: 1.5rem;
-          margin-right: 10px;
-          color: black;
+        .list-item:hover,
+        .list-item.active {
+          background-color: #f0f0f0;
+          border-radius: 5px;
+        }
+
+        .dummy-map-wrapper {
+          width: 60%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         .dummy-map {
-          width: 60%;
+          width: 100%;
           position: relative;
           background-color: #f9f9f9;
           border: 1px solid #ddd;
           border-radius: 5px;
           overflow: hidden;
-          height: 400px; /* Reduced height */
+          height: 400px;
         }
 
         .map-image {
@@ -143,34 +166,17 @@ const InteractiveMapSection: React.FC = () => {
         .marker {
           position: absolute;
           transform: translate(-50%, -100%);
+          transition: transform 0.3s ease, z-index 0.3s ease;
         }
 
-        .pin {
-          position: relative;
-          width: 20px;
+        .marker.active {
+          transform: translate(-50%, -100%) scale(1.2);
+          z-index: 10;
+        }
+
+        .pin-image {
+          width: 30px;
           height: 30px;
-          background-color: #FF9933;
-          border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .pin:after {
-          content: "";
-          position: absolute;
-          bottom: -10px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 10px;
-          height: 10px;
-          background-color: black;
-          clip-path: polygon(50% 0, 0% 100%, 100% 100%);
-        }
-
-        .pin-icon {
-          color: white;
-          font-size: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -183,9 +189,13 @@ const InteractiveMapSection: React.FC = () => {
             width: 100%;
           }
 
+          .dummy-map-wrapper {
+            width: 100%;
+          }
+
           .dummy-map {
             width: 100%;
-            height: 300px; /* Adjusted for mobile */
+            height: 300px;
           }
         }
       `}</style>

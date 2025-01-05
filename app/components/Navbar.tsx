@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link"; // Import Link
 import React from "react";
 
 const Navbar: React.FC = () => {
@@ -8,27 +9,29 @@ const Navbar: React.FC = () => {
     <nav className="navbar">
       {/* Gallery Tab */}
       <div className="left">
-        <a href="/gallery" className="navLink">
-          Gallery
-        </a>
+        <Link href="/plan" className="navLink">
+          Plan Now
+        </Link>
       </div>
 
       {/* Logo in Center */}
       <div className="center">
-        <Image
-          src="/images/logo.png" // Replace with your logo path
-          alt="Logo"
-          width={50}
-          height={50}
-          className="logo"
-        />
+        <Link href="/" className="logoLink">
+          <Image
+            src="/images/logo.png" // Replace with your logo path
+            alt="Logo"
+            width={50}
+            height={50}
+            className="logo"
+          />
+        </Link>
       </div>
 
       {/* Register/Login Tab */}
       <div className="right">
-        <a href="/register" className="navLink">
+        <Link href="/signup-login" className="navLink">
           Register/Login
-        </a>
+        </Link>
       </div>
 
       <style jsx>
