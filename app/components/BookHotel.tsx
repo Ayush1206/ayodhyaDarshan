@@ -3,13 +3,7 @@
 import React, { useState } from "react";
 import { useTrip } from "../context/TripContext";
 
-const statesWithCities: Record<string, string[]> = {
-    "Uttar Pradesh": ["Lucknow", "Varanasi", "Ayodhya", "Kanpur"],
-    "Maharashtra": ["Mumbai", "Pune", "Nagpur"],
-    "Delhi": ["New Delhi"],
-    "Karnataka": ["Bangalore", "Mysore"],
-    "Tamil Nadu": ["Chennai", "Coimbatore"],
-};
+
 
 const hotelTypes = ["3-Star", "4-Star", "5-Star"];
 const roomTypes = ["Basic", "Deluxe", "Luxury"];
