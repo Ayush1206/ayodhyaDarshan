@@ -117,11 +117,18 @@ const InteractiveMapSection: React.FC = () => {
           display: flex;
           justify-content: center;
           align-items: center;
+          background-color: #ff9933; /* Kesari Color */
+          color: white;
+          padding: 20px;
+          height: 400px;
+          flex-direction: column;
+          border-radius: 10px;
         }
 
-        .attractions-list ul {
+         .attractions-list ul {
           list-style: none;
           padding: 0;
+          width: 100%;
         }
 
         .list-item {
@@ -135,7 +142,7 @@ const InteractiveMapSection: React.FC = () => {
 
         .list-item:hover,
         .list-item.active {
-          background-color: #f0f0f0;
+          background-color: rgba(255, 255, 255, 0.3);
           border-radius: 5px;
         }
 

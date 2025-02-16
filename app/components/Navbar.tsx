@@ -48,6 +48,7 @@ const Navbar: React.FC = () => {
             width: 100%;
             height: 70px; /* Set a fixed height */
             z-index: 1000;
+            color: white !important;
           }
 
           .left,
@@ -55,6 +56,7 @@ const Navbar: React.FC = () => {
           .right {
             display: flex;
             align-items: center;
+            color: white !important;
           }
 
           .navLink {

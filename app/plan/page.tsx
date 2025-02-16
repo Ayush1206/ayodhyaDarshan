@@ -2,9 +2,15 @@
 
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import CustomDatePicker from "../components/DatePicker";
+import { useTrip } from "../context/TripContext";
+import TravelModeSelection from "../components/TravelModeSelection";
+import BookHotel from "../components/BookHotel";
+import Checkout from "../components/Checkout";
 
 const TripPlanner = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const { tripDetails, setTripDetails } = useTrip();
 
   const steps = ["Select Dates", "Book Travel", "Book Hotel", "Checkout"];
 
@@ -31,30 +37,27 @@ const TripPlanner = () => {
         <div className="step-content">
           {currentStep === 1 && (
             <div>
-              <h2>Select Your Dates</h2>
-              {/* Date Picker Component */}
-              <p>Select the start and end dates for your trip.</p>
+              <h1>Select Your Travel Date</h1>
+              <CustomDatePicker />
             </div>
           )}
           {currentStep === 2 && (
             <div>
               <h2>Book Your Travel</h2>
-              {/* Travel Booking Form */}
-              <p>Choose between Train, Plane, or Cab for your travel.</p>
+             <TravelModeSelection />
             </div>
           )}
           {currentStep === 3 && (
             <div>
               <h2>Book Your Hotel</h2>
-              {/* Hotel Booking Form */}
-              <p>Find the best hotels that match your needs.</p>
+              <BookHotel />
             </div>
           )}
           {currentStep === 4 && (
             <div>
-              <h2>Checkout</h2>
-              {/* Checkout Summary */}
               <p>Review your trip details and proceed to payment.</p>
+              <Checkout />
+              <button onClick={() => console.log("Send to backend:", tripDetails)}>Confirm Booking</button>
             </div>
           )}
         </div>
