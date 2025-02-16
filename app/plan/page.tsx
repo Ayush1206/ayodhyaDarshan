@@ -10,7 +10,7 @@ import Checkout from "../components/Checkout";
 
 const TripPlanner = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const { tripDetails, setTripDetails } = useTrip();
+  const { tripDetails } = useTrip();
 
   const steps = ["Select Dates", "Book Travel", "Book Hotel", "Checkout"];
 
