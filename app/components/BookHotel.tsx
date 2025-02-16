@@ -23,14 +23,6 @@ const BookHotel: React.FC = () => {
         }
     };
 
-    const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setTripDetails({ selectedState: e.target.value, selectedCity: "" });
-    };
-
-    const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setTripDetails({ selectedCity: e.target.value });
-    };
-
     const handleHotelTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTripDetails({ hotelType: e.target.value });
     };
