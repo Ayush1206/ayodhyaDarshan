@@ -1,52 +1,63 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useTrip } from "../context/TripContext";
 
 const Checkout: React.FC = () => {
-  const { tripDetails } = useTrip();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const { tripDetails, setTripDetails } = useTrip();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const finalData = {
+      ...tripDetails,
+      userInfo: {
+        name,
+        email,
+        phone,
+      },
+    };
+    setTripDetails({
+        userInfo: {
+          name,
+          email,
+          phone,
+        },
+      });
+      console.log("Final Booking Submitted:", {
+        ...tripDetails,
+        name,
+        email,
+        phone,
+      });
+      
+    alert("Booking submitted successfully!");
+  };
 
   return (
     <div className="checkout-container">
-      <h2>Trip Summary</h2>
+      <h2>Enter Your Personal Details</h2>
 
-      <div className="report-card">
-        {/* Date Selection */}
-        {tripDetails.startDate && tripDetails.endDate && (
-          <p>
-            <strong>Travel Dates:</strong> {tripDetails.startDate.toDateString()} - {tripDetails.endDate.toDateString()}
-          </p>
-        )}
+      <form onSubmit={handleSubmit} className="checkout-form">
+        <label>
+          Full Name:
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        </label>
 
-        {/* Travel Mode */}
-        {tripDetails.travelMode && (
-          <p>
-            <strong>Travel Mode:</strong> {tripDetails.travelMode}
-          </p>
-        )}
+        <label>
+          Email:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </label>
 
-        {/* Leave Travel Booking to Us */}
-        {tripDetails.leaveItToUs && tripDetails.travelMode && (
-          <p>
-            <strong>Travel Booking:</strong> We will book your {tripDetails.travelMode.toLowerCase()} for you.
-          </p>
-        )}
+        <label>
+          Phone Number:
+          <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+        </label>
 
-        {/* Hotel Selection */}
-        {tripDetails.leaveItToUs && tripDetails.hotelType && tripDetails.roomType && (
-          <p>
-            <strong>Hotel Booking:</strong> {tripDetails.hotelType} Hotel, {tripDetails.roomType} Room.
-          </p>
-        )}
-
-        {/* State and City (Optional) */}
-        {tripDetails.selectedState && tripDetails.selectedCity && (
-          <p>
-            <strong>Location:</strong> {tripDetails.selectedCity}, {tripDetails.selectedState}
-          </p>
-        )}
-      </div>
-
+        <button type="submit" className="confirm-btn">Confirm Booking</button>
+      </form>
 
       <style jsx>{`
         .checkout-container {
@@ -64,18 +75,24 @@ const Checkout: React.FC = () => {
           margin-bottom: 15px;
         }
 
-        .report-card {
-          background: #fff5e1;
-          padding: 15px;
-          border-radius: 5px;
-          font-size: 1rem;
-          color: #333;
+        .checkout-form {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
           text-align: left;
-          margin-bottom: 20px;
         }
 
-        .report-card p {
-          margin: 10px 0;
+        label {
+          font-weight: bold;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        input {
+          padding: 8px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
         }
 
         .confirm-btn {

@@ -3,77 +3,88 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import CustomDatePicker from "../components/DatePicker";
-import { useTrip } from "../context/TripContext";
 import TravelModeSelection from "../components/TravelModeSelection";
 import BookHotel from "../components/BookHotel";
+import Additionals from "../components/Additionals";
+import Review from "../components/Review"
 import Checkout from "../components/Checkout";
 
 const TripPlanner = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const { tripDetails } = useTrip();
+    const [currentStep, setCurrentStep] = useState(1);
 
-  const steps = ["Select Dates", "Book Travel", "Book Hotel", "Checkout"];
+    const steps = ["Select Dates", "Book Travel", "Book Hotel", "Additionals", "Review", "Checkout"];
 
-  const goToNext = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length));
-  const goToPrev = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
+    const goToNext = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length));
+    const goToPrev = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
-  return (
-    <div className="trip-planner">
-      <Navbar />
-      <div className="content-wrapper">
-        {/* Progress Bar */}
-        <div className="progress-bar">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              className={`step ${index + 1 <= currentStep ? "active" : ""}`}
-            >
-              {step}
+    return (
+        <div className="trip-planner">
+            <Navbar />
+            <div className="content-wrapper">
+                {/* Progress Bar */}
+                <div className="progress-bar">
+                    {steps.map((step, index) => (
+                        <div
+                            key={index}
+                            className={`step ${index + 1 <= currentStep ? "active" : ""}`}
+                        >
+                            {step}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Step Content */}
+                <div className="step-content">
+                    {currentStep === 1 && (
+                        <div>
+                            <h1>Select Your Travel Date</h1>
+                            <CustomDatePicker />
+                        </div>
+                    )}
+                    {currentStep === 2 && (
+                        <div>
+                            <h2>Book Your Travel</h2>
+                            <TravelModeSelection />
+                        </div>
+                    )}
+                    {currentStep === 3 && (
+                        <div>
+                            <h2>Book Your Hotel</h2>
+                            <BookHotel />
+                        </div>
+                    )}
+                    {currentStep === 4 && (
+                        <div>
+                            <h2>Additional Preferences</h2>
+                            <Additionals />
+                        </div>
+                    )}
+                    {currentStep === 5 && (
+                        <Review
+                            onEdit={() => setCurrentStep(1)}
+                            onProceed={() => setCurrentStep(6)}
+                        />
+                    )}
+                    {currentStep === 6 && (
+                        <div>
+                            <h2>Checkout</h2>
+                            <Checkout />
+                        </div>
+                    )}
+                </div>
+
+                {/* Navigation Buttons */}
+                <div className="navigation-buttons">
+                    <button onClick={goToPrev} disabled={currentStep === 1}>
+                        Previous
+                    </button>
+                    <button onClick={goToNext} disabled={currentStep === steps.length}>
+                        Next
+                    </button>
+                </div>
             </div>
-          ))}
-        </div>
 
-        {/* Step Content */}
-        <div className="step-content">
-          {currentStep === 1 && (
-            <div>
-              <h1>Select Your Travel Date</h1>
-              <CustomDatePicker />
-            </div>
-          )}
-          {currentStep === 2 && (
-            <div>
-              <h2>Book Your Travel</h2>
-             <TravelModeSelection />
-            </div>
-          )}
-          {currentStep === 3 && (
-            <div>
-              <h2>Book Your Hotel</h2>
-              <BookHotel />
-            </div>
-          )}
-          {currentStep === 4 && (
-            <div>
-              <p>Review your trip details and proceed to payment.</p>
-              <Checkout />
-              <button onClick={() => console.log("Send to backend:", tripDetails)}>Confirm Booking</button>
-            </div>
-          )}
-        </div>
-
-        {/* Navigation Buttons */}
-        <div className="navigation-buttons">
-          <button onClick={goToPrev} disabled={currentStep === 1}>
-            Previous
-          </button>
-          <button onClick={goToNext} disabled={currentStep === steps.length}>
-            Next
-          </button>
-        </div>
-      </div>
-
-      <style jsx>{`
+            <style jsx>{`
         .trip-planner {
           font-family: Arial, sans-serif;
           margin: 0;
@@ -156,8 +167,8 @@ const TripPlanner = () => {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default TripPlanner;

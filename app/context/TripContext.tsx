@@ -3,16 +3,27 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface TripDetails {
-  startDate: Date | null;
-  endDate: Date | null;
-  travelMode: string;
-  leaveItToUs: boolean;
-  selectedState: string;
-  selectedCity: string;
-  hotelType: string;
-  roomType: string;
-  hotel: string;
-}
+    startDate: Date | null;
+    endDate: Date | null;
+    travelMode: string;
+    leaveItToUs: boolean;
+    selectedState: string;
+    selectedCity: string;
+    hotelType: string;
+    roomType: string;
+    hotel: string;
+    additionals: {
+      guide: boolean;
+      restaurant: boolean;
+    };
+    userInfo: {
+      name: string;
+      email: string;
+      phone: string;
+    };
+  }
+  
+  
 
 interface TripContextType {
   tripDetails: TripDetails;
@@ -22,17 +33,27 @@ interface TripContextType {
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
 export const TripProvider = ({ children }: { children: ReactNode }) => {
-  const [tripDetails, setTripDetailsState] = useState<TripDetails>({
-    startDate: null,
-    endDate: null,
-    travelMode: "",
-    leaveItToUs: false,
-    selectedState: "",
-    selectedCity: "",
-    hotelType: "",
-    roomType: "",
-    hotel: "",
-  });
+    const [tripDetails, setTripDetailsState] = useState<TripDetails>({
+        startDate: null,
+        endDate: null,
+        travelMode: "",
+        leaveItToUs: false,
+        selectedState: "",
+        selectedCity: "",
+        hotelType: "",
+        roomType: "",
+        hotel: "",
+        additionals: {
+          guide: false,
+          restaurant: false,
+        },
+        userInfo: {
+          name: "",
+          email: "",
+          phone: "",
+        },
+      });
+      
 
   const setTripDetails = (details: Partial<TripDetails>) => {
     setTripDetailsState((prev) => ({ ...prev, ...details }));
