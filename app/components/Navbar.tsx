@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
       <div className="center">
         <Link href="/" className="logoLink">
           <Image
-            src="/images/logo.png" // Replace with your logo path
+            src="/images/LogoDraft_14.png" // Replace with your logo path
             alt="Logo"
             width={50}
             height={50}

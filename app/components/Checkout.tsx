@@ -9,32 +9,40 @@ const Checkout: React.FC = () => {
   const [phone, setPhone] = useState("");
   const { tripDetails, setTripDetails } = useTrip();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const finalData = {
-      ...tripDetails,
-      userInfo: {
-        name,
-        email,
-        phone,
-      },
-    };
-    setTripDetails({
-        userInfo: {
-          name,
-          email,
-          phone,
-        },
-      });
-      console.log("Final Booking Submitted:", {
-        ...tripDetails,
-        name,
-        email,
-        phone,
-      });
-      
-    alert("Booking submitted successfully!");
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const finalData = {
+    ...tripDetails,
+    userInfo: {
+      name,
+      email,
+      phone,
+    },
   };
+
+  try {
+    const res = await fetch("/api/booking", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(finalData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Booking submitted successfully!");
+      console.log("Final Booking Submitted:", finalData);
+    } else {
+      alert("Something went wrong: " + data.error);
+    }
+  } catch (error) {
+    alert("Failed to submit booking.");
+    console.error(error);
+  }
+
+  setTripDetails(finalData);
+};
+
 
   return (
     <div className="checkout-container">
