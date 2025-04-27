@@ -1,24 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link"; // Import Link
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 const Navbar: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <nav className="navbar">
-      {/* Gallery Tab */}
+      {/* Left (Plan Now - visible on desktop) */}
       <div className="left">
-        <Link href="/plan" className="navLink">
-          Plan Now
-        </Link>
+        <div className="desktopMenu">
+          <Link href="/plan" className="navLink">
+            Plan Now
+          </Link>
+        </div>
       </div>
 
-      {/* Logo in Center */}
+      {/* Center (Logo) */}
       <div className="center">
         <Link href="/" className="logoLink">
           <Image
-            src="/images/LogoDraft_14.png" // Replace with your logo path
+            src="/images/LogoDraft_14.png"
             alt="Logo"
             width={50}
             height={50}
@@ -27,12 +35,30 @@ const Navbar: React.FC = () => {
         </Link>
       </div>
 
-      {/* Register/Login Tab */}
+      {/* Right (Register/Login - visible on desktop + Hamburger visible on mobile) */}
       <div className="right">
-        <Link href="/signup-login" className="navLink">
-          Register/Login
-        </Link>
+        <div className="desktopMenu">
+          <Link href="/signup-login" className="navLink">
+            Register/Login
+          </Link>
+        </div>
+
+        <button className="hamburger" onClick={toggleMenu}>
+          {menuOpen ? "✖" : "☰"}
+        </button>
       </div>
+
+      {/* Mobile Menu (hidden on desktop) */}
+      {menuOpen && (
+        <div className="mobileMenu">
+          <Link href="/plan" className="mobileNavLink" onClick={() => setMenuOpen(false)}>
+            Plan Now
+          </Link>
+          <Link href="/signup-login" className="mobileNavLink" onClick={() => setMenuOpen(false)}>
+            Register/Login
+          </Link>
+        </div>
+      )}
 
       <style jsx>
         {`
@@ -41,22 +67,24 @@ const Navbar: React.FC = () => {
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
-            background-color: #ff9933; /* Saffron */
-            box-shadow: 0 4px 6px rgba(255, 215, 0, 0.5); /* Golden shadow */
+            background-color: #ff9933;
+            box-shadow: 0 4px 6px rgba(255, 215, 0, 0.5);
             position: fixed;
             top: 0;
             width: 100%;
-            height: 70px; /* Set a fixed height */
+            height: 70px;
             z-index: 1000;
-            color: white !important;
+            color: white;
           }
 
-          .left,
-          .center,
-          .right {
+          .left, .center, .right {
             display: flex;
             align-items: center;
-            color: white !important;
+          }
+
+          .desktopMenu {
+            display: flex;
+            gap: 20px;
           }
 
           .navLink {
@@ -68,36 +96,77 @@ const Navbar: React.FC = () => {
           }
 
           .navLink:hover {
-            color: #ffd700; /* Golden hover effect */
+            color: #ffd700;
           }
 
           .logo {
             border-radius: 50%;
           }
 
-          .center {
-            justify-content: center;
+          .logoLink {
+            display: flex;
+            align-items: center;
           }
 
-          .left {
-            justify-content: flex-start;
+          .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
           }
 
-          .right {
-            justify-content: flex-end;
-          }
+          /* Mobile */
+          .mobileMenu {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  background-color: #ff9933;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0; /* More padding top and bottom */
+  gap: 20px; /* ADD THIS */
+  box-shadow: 0 4px 6px rgba(255, 215, 0, 0.5);
+}
 
-          /* Responsive Design */
+.mobileNavLink {
+  text-decoration: none;
+  color: white;
+  font-size: 1.4rem; /* Slightly bigger */
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.mobileNavLink:hover {
+  background-color: #ffd700; /* Golden hover effect */
+  color: #ff9933;
+}
           @media (max-width: 768px) {
-            .navbar {
-              flex-direction: column;
+            .desktopMenu {
+              display: none;
             }
 
-            .left,
-            .center,
-            .right {
+            .hamburger {
+              display: block;
+            }
+
+            .left, .right {
+              flex: 1;
+              justify-content: flex-start;
+            }
+
+            .center {
+              flex: 1;
               justify-content: center;
-              margin: 5px 0;
+            }
+
+            .right {
+              justify-content: flex-end;
             }
           }
         `}

@@ -198,18 +198,26 @@ const SignupLogin: React.FC = () => {
           }
 
           @media (max-width: 768px) {
-            .container-a {
-              flex-direction: column;
-            }
+  .container-a {
+    flex-direction: column;
+    width: 90%; /* little padding on sides for mobile */
+    height: auto; /* allow container to grow based on content */
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 
-            .left-section {
-              height: 50%;
-            }
+  .left-section {
+    width: 100%;
+    height: 200px; /* fixed height for the image on mobile */
+    position: relative;
+  }
 
-            .right-section {
-              height: 50%;
-            }
-          }
+  .right-section {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
         `}</style>
       </div>
     </>

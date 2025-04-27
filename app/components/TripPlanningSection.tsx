@@ -74,7 +74,7 @@ const TripPlanningSection: React.FC = () => {
           padding: 50px;
           background-color: #f9f9f9;
           text-align: center;
-          height: 80vh;
+          margin-bottom: 50px;
         }
 
         .heading {
